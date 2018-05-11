@@ -1,5 +1,7 @@
 # Base our container on a Slim Python + Debian (Jessie) Image
-FROM resin/raspberrypi3-python:2.7
+FROM resin/armv7hf-debian:jessie
+
+RUN apt-get update && apt-get install -y python 
 
 # Set our working directory
 WORKDIR /usr/src/app
@@ -13,6 +15,8 @@ COPY . .
 #               |── startup.sh
 #               └── main.py
 
-ENV INITSYSTEM=on
+#ENV INITSYSTEM=on
 
-CMD ["bash","project/startup.sh"]
+COPY start.sh /usr/bin/entry.sh
+
+CMD ["python","project/main.py"]
